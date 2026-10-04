@@ -20,16 +20,23 @@
 
 body {
     background-color: #131314;
-    /* 背景图：摇曳露营篝火场景（R.png），叠一层浅暗色保证卡片外的层次 */
-    background-image: linear-gradient(rgba(19, 19, 20, 0.35), rgba(19, 19, 20, 0.35)), url('R.png');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     color: var(--text-color);
     height: 100vh;
     height: 100dvh; /* 手机浏览器地址栏收缩时 100vh 偏大，dvh 才是真实可视高度 */
     overflow: hidden;
+}
+
+/* 背景图层：用固定定位伪元素承载，视觉等同 background-attachment:fixed，
+   但 iOS Safari 对 fixed 背景支持差（会拉伸），此写法全平台一致 */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: linear-gradient(rgba(19, 19, 20, 0.35), rgba(19, 19, 20, 0.35)), url('R.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .app-container {
@@ -141,6 +148,11 @@ body {
     margin-top: auto;
 }
 
+/* 手机端抽屉遮罩（仅小屏打开抽屉时显示） */
+.sidebar-scrim {
+    display: none;
+}
+
 .nav-item {
     display: flex;
     align-items: center;
@@ -177,6 +189,12 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+/* 手机端顶栏的抽屉开关（桌面隐藏，桌面用侧边栏内的汉堡按钮）。
+   两级选择器压过后面 .icon-btn 的 display:flex */
+.chat-header .header-menu-btn {
+    display: none;
 }
 
 .gemini-logo {
@@ -274,9 +292,16 @@ body {
 }
 
 @media (max-width: 768px) {
-    body {
-        /* iOS Safari 对 fixed 背景支持差（会拉伸背景图），小屏退化为随页滚动 */
-        background-attachment: scroll;
+    .chat-header .header-menu-btn {
+        display: flex; /* 手机端显示顶栏抽屉开关 */
+    }
+
+    .sidebar-scrim.show {
+        display: block; /* 抽屉打开时的半透明遮罩 */
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* 侧边栏是 1000 */
     }
 
     .sidebar {

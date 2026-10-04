@@ -22,8 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- 侧边栏：桌面折叠 / 手机抽屉 ----------
+    const sidebarScrim = document.getElementById('sidebarScrim');
+    const headerMenuBtn = document.getElementById('headerMenuBtn');
+    const isMobileWidth = () => window.innerWidth <= 768;
+
+    // open=true 展开抽屉（手机端同时显示遮罩）
+    const setDrawer = (open) => {
+        sidebar.classList.toggle('collapsed', !open);
+        if (sidebarScrim) sidebarScrim.classList.toggle('show', open && isMobileWidth());
+    };
+
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => setDrawer(sidebar.classList.contains('collapsed')));
+    }
+    if (headerMenuBtn) {
+        headerMenuBtn.addEventListener('click', () => setDrawer(sidebar.classList.contains('collapsed')));
+    }
+    if (sidebarScrim) {
+        sidebarScrim.addEventListener('click', () => setDrawer(false));
+    }
+    // 从手机尺寸拉宽到桌面时，确保遮罩不残留
+    window.addEventListener('resize', () => {
+        if (!isMobileWidth() && sidebarScrim) sidebarScrim.classList.remove('show');
+    });
+
     // 手机端适配
-    if (window.innerWidth <= 768) {
+    if (isMobileWidth()) {
         sidebar.classList.add('collapsed');
     }
 
