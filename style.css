@@ -20,10 +20,10 @@
 
 body {
     background-color: #131314;
-    /* TODO: 背景图待定（问题清单第6项），定稿后加回 url('xxx.jpg') 并按图调整 background-size/position */
-    background-image: linear-gradient(rgba(19, 19, 20, 0.3), rgba(19, 19, 20, 0.3));
-    background-size: contain;
-    background-position: 62.5% center;
+    /* 背景图：摇曳露营篝火场景（R.png），叠一层浅暗色保证卡片外的层次 */
+    background-image: linear-gradient(rgba(19, 19, 20, 0.35), rgba(19, 19, 20, 0.35)), url('R.png');
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: var(--text-color);
