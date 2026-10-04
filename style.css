@@ -28,6 +28,7 @@ body {
     background-attachment: fixed;
     color: var(--text-color);
     height: 100vh;
+    height: 100dvh; /* 手机浏览器地址栏收缩时 100vh 偏大，dvh 才是真实可视高度 */
     overflow: hidden;
 }
 
@@ -273,6 +274,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    body {
+        /* iOS Safari 对 fixed 背景支持差（会拉伸背景图），小屏退化为随页滚动 */
+        background-attachment: scroll;
+    }
+
     .sidebar {
         position: fixed;
         left: 0;

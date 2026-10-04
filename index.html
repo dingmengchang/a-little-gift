@@ -305,6 +305,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.65);
+            -webkit-backdrop-filter: blur(4px); /* iOS Safari 需要前缀 */
             backdrop-filter: blur(4px);
             z-index: 9000; /* 在烟花(9999)之下，不影响庆祝动画 */
             display: none;
@@ -325,6 +326,7 @@
             max-width: 560px;
             width: 100%;
             max-height: 84vh;
+            max-height: 84dvh; /* 手机上用真实可视高度 */
             overflow-y: auto;
             padding: 32px;
             position: relative;
@@ -437,6 +439,21 @@
             .gift-card {
                 padding: 28px 20px;
             }
+
+            /* 手机端加大触控目标（推荐 ≥44px） */
+            .coupon-option {
+                padding: 11px 18px;
+                font-size: 15px;
+            }
+
+            .stamp-btn,
+            .reveal-btn {
+                padding: 14px 30px;
+            }
+
+            .modal-card {
+                padding: 24px 18px;
+            }
         }
     </style>
 </head>
@@ -499,7 +516,6 @@
                             <span class="material-symbols-rounded" style="font-size: 64px; color: #e8b34b; margin-bottom: 20px; width: 64px; height: 64px;">restaurant</span>
                         </div>
                         <h1 class="gift-title">生日快乐，泽豪！</h1>
-                        <!-- TODO: 祝福语是占位文案，按你的想法改 -->
                         <p class="gift-message">
                             尊敬的泽豪：<br>
                             冒昧致函。我是丁梦常。此番写信，旨在正式申请一个宝贵名额——恳请允许我陪同您前往大渔铁板烧（或独野和牛寿喜烧），共同开展一场以「和牛高效摄入、优质蛋白补充与餐盘资源动态调度」为主题的实地验证实验。<br><br>
