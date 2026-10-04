@@ -1,0 +1,294 @@
+:root {
+    --bg-color: #131314;
+    --sidebar-bg: #1e1f20;
+    --sidebar-hover: #333537;
+    --text-color: #e3e3e3;
+    --text-muted: #8e918f;
+    --input-bg: #1e1f20;
+    --card-bg: #1e1f20;
+    --card-hover: #282a2c;
+    --accent-color: #e8b34b; /* 暖金主题，配合请客券 */
+    --border-color: #444746;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Google Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #131314;
+    /* TODO: 背景图待定（问题清单第6项），定稿后加回 url('xxx.jpg') 并按图调整 background-size/position */
+    background-image: linear-gradient(rgba(19, 19, 20, 0.3), rgba(19, 19, 20, 0.3));
+    background-size: contain;
+    background-position: 62.5% center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+    position: relative; /* 为canvas定位做参照 */
+    z-index: 1;
+}
+
+/* --- 烟花画布样式 --- */
+#fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999; /* 确保在最上层 */
+    pointer-events: none; /* 关键：允许鼠标穿透画布，不影响下方按钮点击 */
+    display: none; /* 默认隐藏，触发后显示 */
+}
+
+/* 音乐按钮样式 */
+.music-toggle {
+    margin-right: 8px;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+
+.music-toggle.playing {
+    color: var(--accent-color);
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    transition: width 0.3s ease;
+    flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+    width: 68px;
+}
+
+.sidebar.collapsed .text,
+.sidebar.collapsed .recent-title {
+    display: none;
+}
+
+.sidebar-top {
+    margin-bottom: 32px;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.menu-btn:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.sidebar-middle {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.recent-title {
+    font-size: 14px;
+    margin: 20px 12px 10px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.history-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.history-item.active {
+    background-color: #37393b;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-item:hover {
+    background-color: var(--sidebar-hover);
+}
+
+/* 主聊天区域 */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gemini-logo {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background-color: var(--sidebar-hover);
+}
+
+/* 内容区 */
+.chat-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 图标字体基础样式 */
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    font-variant-ligatures: discretionary-ligatures;
+    letter-spacing: -1em;
+    overflow: hidden;
+    width: 24px;
+    height: 24px;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444746;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        transform: translateX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+        transform: translateX(-100%);
+        display: flex;
+    }
+
+    .chat-container {
+        margin-left: 0 !important;
+    }
+}
