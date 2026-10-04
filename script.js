@@ -27,6 +27,26 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.add('collapsed');
     }
 
+    // ---------- 「关于这份礼物」彩蛋弹窗 ----------
+    const aboutGift = document.getElementById('aboutGift');
+    const aboutModal = document.getElementById('aboutModal');
+    const modalClose = document.getElementById('modalClose');
+    if (aboutGift && aboutModal) {
+        const openModal = () => aboutModal.classList.add('show');
+        const closeModal = () => aboutModal.classList.remove('show');
+        aboutGift.addEventListener('click', openModal);
+        aboutGift.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+        });
+        if (modalClose) modalClose.addEventListener('click', closeModal);
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal) closeModal(); // 点遮罩关闭
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    }
+
     // ---------- 请客券交互 ----------
     const giftCard = document.getElementById('giftCard');
     const revealBtn = document.getElementById('revealBtn');

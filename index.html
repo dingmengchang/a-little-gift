@@ -300,6 +300,101 @@
             80% { transform: translateX(5px); }
         }
 
+        /* ===== 关于这份礼物 弹窗 ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9000; /* 在烟花(9999)之下，不影响庆祝动画 */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(232, 179, 75, 0.45);
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            max-width: 560px;
+            width: 100%;
+            max-height: 84vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            text-align: left;
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--text-color);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 6px;
+            background: linear-gradient(45deg, #f5d78a, #e8b34b, #ff9f68);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-subtitle {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .modal-section h3 {
+            font-size: 0.95rem;
+            color: #e8b34b;
+            letter-spacing: 2px;
+            margin: 20px 0 8px;
+        }
+
+        .modal-section p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .sincere {
+            margin-top: 24px;
+            padding: 16px 18px;
+            border-left: 3px solid #e8b34b;
+            background: rgba(232, 179, 75, 0.06);
+            border-radius: 8px;
+        }
+
+        .sincere h3 {
+            margin-top: 0 !important;
+        }
+
         /* 动画效果 */
         @keyframes popIn {
             0% { transform: scale(0.8); opacity: 0; }
@@ -368,7 +463,7 @@
             </div>
 
             <div class="sidebar-bottom">
-                <div class="nav-item">
+                <div class="nav-item" id="aboutGift" role="button" tabindex="0">
                     <span class="material-symbols-rounded">info</span>
                     <span class="text">关于这份礼物</span>
                 </div>
@@ -455,6 +550,39 @@
 
             </div>
         </main>
+    </div>
+
+    <!-- 关于这份礼物：真心话彩蛋弹窗 -->
+    <div class="modal-overlay" id="aboutModal" role="dialog" aria-modal="true" aria-label="关于这份礼物">
+        <div class="modal-card">
+            <button class="modal-close" id="modalClose" aria-label="关闭">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+            <div class="modal-title">关于这份礼物</div>
+            <div class="modal-subtitle">（使用前请仔细阅读本说明书）</div>
+
+            <div class="modal-section">
+                <h3>【立项背景】</h3>
+                <p>本项目由丁梦常（个人账户）全额资助，立项于某个想不出送什么礼物的深夜。经充分查新，市售礼品普遍存在「折旧快、易吃灰、没法吃」等缺陷，唯一同时满足「有得吃、有人陪、能回忆」三个指标的技术方案，就是您手中这张券。</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>【文献致谢】</h3>
+                <p>本页面的文案体例，致敬申请人此前向文教授投递的《关于陪同前往寿司郎开展实地验证实验的申请函》。截至本项目结题，该函仍未获得批复。文教授如看到此处：名额仍在，随时有效。</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>【使用条款】</h3>
+                <p>第一条　本券不找零、不挂失、不可折现，但永久有效；</p>
+                <p>第二条　兑现请提前一天预约，随餐附赠陪吃员一名（即申请人本人），餐费全包，厨艺点评不计费；</p>
+                <p>第三条　本券最终解释权归丁梦常所有，但泽豪教授对一切事项拥有一票否决权。</p>
+            </div>
+
+            <div class="modal-section sincere">
+                <h3>【真心话（正经版）】</h3>
+                <p>搞怪的部分到此为止。其实想说的就一句：泽豪，生日快乐。往后的日子，想吃的馆子随时开口，我随叫随到。</p>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
